@@ -18,14 +18,14 @@ export const AuthProvider = ({ children }) => {
 
   // Registers a new user and logs them in
   const register = async (formData) => {
-    const { data } = await api.post("/auth/register", formData);
+    const { data } = await api.post("/api/auth/register", formData);
     saveUser(data);
     return data;
   };
 
   // Logs in an existing user
   const login = async (formData) => {
-    const { data } = await api.post("/auth/login", formData);
+    const { data } = await api.post("/api/auth/login", formData);
     saveUser(data);
     return data;
   };
