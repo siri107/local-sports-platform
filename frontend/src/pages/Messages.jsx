@@ -35,11 +35,13 @@ const Messages = () => {
 
   const fetchConversations = useCallback(async () => {
     try {
+      setLoadingConversations(true);
       const { data } = await api.get("/chat/conversations");
       setConversations(data);
     } catch (error) {
-      console.error(error);
+      console.error("Failed to load conversations:", error);
     } finally {
+      // Guarantees loading state ends even if network request fails
       setLoadingConversations(false);
     }
   }, []);
@@ -59,8 +61,9 @@ const Messages = () => {
         const { data } = await api.get(`/chat/${userId}`);
         setThread(data);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to load thread:", error);
       } finally {
+        // Prevents endless "Loading conversation..." spinner on errors
         setLoadingThread(false);
       }
     };
@@ -203,9 +206,13 @@ const Messages = () => {
             <div className="flex-1 flex items-center justify-center text-gray-400 text-sm p-8 text-center">
               Select a conversation, or visit a player's profile and tap "Message" to start a new one.
             </div>
-          ) : loadingThread || !thread ? (
+          ) : loadingThread ? (
             <div className="flex-1 flex items-center justify-center text-gray-400 text-sm">
               Loading conversation...
+            </div>
+          ) : !thread ? (
+            <div className="flex-1 flex items-center justify-center text-gray-400 text-sm">
+              Unable to load conversation. Please try again.
             </div>
           ) : (
             <>

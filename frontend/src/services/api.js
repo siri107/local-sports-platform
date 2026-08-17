@@ -1,9 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 
-// Central Axios instance for all API calls
+// Ensure requests point to Render backend
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL || 'https://local-sports-platform-backend.onrender.com',
+  withCredentials: true,
 });
+
+
 
 // Attach the JWT token (if present) to every outgoing request
 api.interceptors.request.use((config) => {

@@ -28,7 +28,7 @@ connectDB();
 const app = express();
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
-  cors: { origin: process.env.CLIENT_URL || "http://localhost:5173" },
+  cors: { origin: process.env.CLIENT_URL || "https://local-sports-platform.vercel.app" , methods: ["GET", "POST"]},
 });
 registerChatHandlers(io);
 
@@ -37,7 +37,7 @@ registerChatHandlers(io);
 // different origin than this API (e.g. Vercel calling a Render backend) —
 // the default "same-origin" policy would otherwise block those responses.
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
+app.use(cors({ origin: process.env.CLIENT_URL || "https://local-sports-platform.vercel.app" }));
 app.use(express.json());
 app.use(mongoSanitize()); // strips any $ or . keys from req.body/query/params
 app.use(generalLimiter);
